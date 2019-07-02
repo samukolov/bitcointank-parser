@@ -11,4 +11,8 @@ Original idea was to create a service that can manage every aspect of every give
 * Generate new posts/tweets
 ###### PS: Unfortunately, I cannot share the complete code as it was written for the commercial usage
 
-<p><b>parse_new_bounties.py<\b> - 
+[parse_new_bounties.py](https://github.com/samukolov/bitcointank-parser/blob/master/parse_new_bounties.py) - searches for new bounty posts and notifies you about them via telegram
+
+[parse_new_bounties.py](https://github.com/samukolov/bitcointank-parser/blob/master/parse_new_bounties.py) - searches for new bounty posts and notifies you about them via telegram
+
+[parse_new_bounties.py](https://github.com/samukolov/bitcointank-parser/blob/master/parse_new_bounties.py) - searches for new bounty posts and notifies you about them via telegram
