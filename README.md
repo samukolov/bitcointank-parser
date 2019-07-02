@@ -9,4 +9,4 @@ Original idea was to create a service that can manage every aspect of every give
 * manage and promote participating accounts (twitter, facebook, telegram)
 * Repost/retweet necessary updates
 * Generate new posts/tweets
-PS: Unfortunately, I cannot share the complete code as it was written for the commercial usage
+###### PS: Unfortunately, I cannot share the complete code as it was written for the commercial usage
