@@ -11,8 +11,8 @@ import requests
 
 #--------------------------------------------------------------------------------------------------------------------
 
-
-def GetFile(file):
+#gets a list of lines in a file
+def get_file(file):
 	a=[]
 	f = open(file, "r")
 	for line in f:
@@ -22,8 +22,8 @@ def GetFile(file):
 
 #--------------------------------------------------------------------------------------------------------------------
 
-
-def Backup(backup):
+# adds newly checked bounties to BountyList.csv file
+def backup_files(backup):
 	with open("BountyList.csv", 'a', newline='') as fp:
 		b = csv.writer(fp,delimiter=',')
 		b.writerow(backup[3:])
@@ -32,15 +32,12 @@ def Backup(backup):
 
 #--------------------------------------------------------------------------------------------------------------------
 
-
-def Telegram(bounty):
+# sends links to new bounties to a telegram group
+def telegram(bounty):
 	url = "https://api.telegram.org/bot{token}/{method}?chat_id={chat_id}&text=".format(
-		token="471689916:AAFAP8dxolrrreWU7lFwYmvU-4wk_I5zNS8",
+		token="token",
 		method="sendMessage",
-		chat_id="-250053691")
-		#Хруст Бабоса: -251812064
-		#Лічний Кабінєт: -308402200
-		#New Bounties: -250053691
+		chat_id="chatid")
 
 	url = url + "{one}) {two}\n{three}".format(
 		one = str(counter),
@@ -51,8 +48,8 @@ def Telegram(bounty):
 
 #--------------------------------------------------------------------------------------------------------------------
 
-
-def GetURLs(url):
+# generates a list of all bounties from bitcointalk
+def get_urls(url):
 	ff.get(url)
 	try:
 		element = WebDriverWait(ff, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/table[1]/tbody/tr/td[1]/span")))
@@ -78,7 +75,7 @@ def GetURLs(url):
 
 	new_bounties = [bounty for bounty in all_bounties
 		if bounty[-1] not in bountylist
-		and "bounty" in bounty[0].lower()]
+		and "bounty" in bounty[0].lower()] # additional search criterias can be added here
 	#and int(bounty[-2])<5000
 	#and int(bounty[-3])<1000
 
@@ -87,8 +84,8 @@ def GetURLs(url):
 
 #--------------------------------------------------------------------------------------------------------------------
 
-
-def CheckDate(url):
+# checks if the bounty is less than seven days old
+def check_date(url):
 	ff.get(url)
 	try:
 		element = WebDriverWait(ff, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/table[1]/tbody/tr/td[1]/span")))
@@ -110,17 +107,15 @@ def CheckDate(url):
 		print(step2.text)
 
 
-	if "oday" not in kapusta:
-		if (datetime.datetime.now() - datetime.datetime.strptime(kapusta, '%B %d, %Y, %I:%M:%S %p')).days <=7:
-			return True
-	else: return True
+	if "oday" not in kapusta or (datetime.datetime.now() - datetime.datetime.strptime(kapusta, '%B %d, %Y, %I:%M:%S %p')).days <=7:
+		return True
 	return False
 
 
 #--------------------------------------------------------------------------------------------------------------------
 
 
-bountylist = GetFile("BountyList.csv")
+bountylist = get_file("BountyList.csv")
 
 options = Options()
 options.add_argument("--headless")
@@ -130,16 +125,16 @@ ff = webdriver.Firefox(firefox_options=options)
 counter=1
 for i in range(50):
 	try:
-		bounties = GetURLs('https://bitcointalk.org/index.php?board=238.' + str(i*40))
+		bounties = get_urls('https://bitcointalk.org/index.php?board=238.' + str(i*40))
 
-		for j in range(len(bounties)):	#len(bounties)):
+		for j in range(len(bounties)):
 			try:
-				if CheckDate(bounties[j][-1]):
-					Telegram(bounties[j])
+				if check_date(bounties[j][-1]):
+					telegram(bounties[j])
 					counter = counter+1
 					print("Telegram")
 					bountylist.append(bounties[j][-1])
-					Backup(bounties[j])
+					backup_files(bounties[j])
 
 			except Exception as e:
 				print(e)
