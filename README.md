@@ -11,4 +11,4 @@ Original idea was to create a service that can manage every aspect of every give
 * Generate new posts/tweets
 ###### PS: Unfortunately, I cannot share the complete code as it was written for the commercial usage
 
-<p>**parse_new_bounties.py**
+<p><b>parse_new_bounties.py
