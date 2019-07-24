@@ -8,11 +8,8 @@ import datetime
 import csv
 import requests
 
-
-#--------------------------------------------------------------------------------------------------------------------
-
-#gets a list of lines in a file
 def get_file(file):
+	""" gets a list of lines in a file """
 	a=[]
 	f = open(file, "r")
 	for line in f:
@@ -20,20 +17,15 @@ def get_file(file):
 	f.close()
 	return a
 
-#--------------------------------------------------------------------------------------------------------------------
-
-# adds newly checked bounties to BountyList.csv file
 def backup_files(backup):
+	""" adds newly checked bounties to BountyList.csv file """
 	with open("BountyList.csv", 'a', newline='') as fp:
 		b = csv.writer(fp,delimiter=',')
 		b.writerow(backup[3:])
 	fp.close()
 
-
-#--------------------------------------------------------------------------------------------------------------------
-
-# sends links to new bounties to a telegram group
 def telegram(bounty):
+	""" sends links to new bounties to a telegram group """
 	url = "https://api.telegram.org/bot{token}/{method}?chat_id={chat_id}&text=".format(
 		token="token",
 		method="sendMessage",
@@ -45,11 +37,8 @@ def telegram(bounty):
 		three = bounty[-1])
 	requests.post(url)
 
-
-#--------------------------------------------------------------------------------------------------------------------
-
-# generates a list of all bounties from bitcointalk
 def get_urls(url):
+	""" generates a list of all bounties from bitcointalk """
 	ff.get(url)
 	try:
 		element = WebDriverWait(ff, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/table[1]/tbody/tr/td[1]/span")))
@@ -81,11 +70,8 @@ def get_urls(url):
 
 	return new_bounties
 
-
-#--------------------------------------------------------------------------------------------------------------------
-
-# checks if the bounty is less than seven days old
 def check_date(url):
+	""" checks if the bounty is less than seven days old """
 	ff.get(url)
 	try:
 		element = WebDriverWait(ff, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/table[1]/tbody/tr/td[1]/span")))
@@ -111,9 +97,7 @@ def check_date(url):
 		return True
 	return False
 
-
 #--------------------------------------------------------------------------------------------------------------------
-
 
 bountylist = get_file("BountyList.csv")
 
