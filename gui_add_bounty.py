@@ -1,4 +1,4 @@
-from oauth2client.service_account import ServiceAccountCredentials
+﻿from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import urllib.request
 from tkinter import *
